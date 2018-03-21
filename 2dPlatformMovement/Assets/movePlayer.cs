@@ -8,30 +8,38 @@ public class movePlayer : NetworkBehaviour {
 
     private Rigidbody2D rb2d;
     // Use this for initialization
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.name.EndsWith("Top")) { 
+            areWeLanded = true;
+        }
+    }
+
     void Start () {
         //Get and store a reference to the Rigidbody2D component so that we can access it.
         rb2d = GetComponent<Rigidbody2D>();
     }
 
-    private float canJump = 0f;
+    private bool areWeLanded = false;
     // Update is called once per frame
     void Update () {
         if (!hasAuthority) {
             return;
         }
         
-        if (Input.GetKeyDown("space") && Time.time > canJump)
+        if (Input.GetKeyDown("space") && areWeLanded == true)
         {
             rb2d.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
-            canJump = Time.time + 1.0f;
+            areWeLanded = false;
         }
         if (Input.GetKey("d"))
         {
-            rb2d.AddForce(new Vector2(5, 0));
+            rb2d.AddForce(new Vector2(5*speed, 0));
         }
         if (Input.GetKey("a"))
         {
-            rb2d.AddForce(new Vector2(-5, 0));
+            rb2d.AddForce(new Vector2(-5*speed, 0));
         }
     }
 }
