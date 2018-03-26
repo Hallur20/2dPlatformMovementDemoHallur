@@ -6,12 +6,13 @@ using UnityEngine.Networking;
 public class movePlayer : NetworkBehaviour {
     public float speed;             //Floating point variable to store the player's movement speed.
 
+
     private Rigidbody2D rb2d;
     // Use this for initialization
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.name.EndsWith("Top")) { 
+        if (coll.gameObject.name.Contains("Top")) { 
             areWeLanded = true;
         }
     }
@@ -26,6 +27,11 @@ public class movePlayer : NetworkBehaviour {
     void Update () {
         if (!hasAuthority) {
             return;
+        } else
+        {
+           Vector3 newPosition = this.transform.GetComponent<Transform>().position;
+
+            Camera.main.GetComponent<CameraFollow>().setTarget(gameObject.transform);
         }
         
         if (Input.GetKeyDown("space") && areWeLanded == true)
