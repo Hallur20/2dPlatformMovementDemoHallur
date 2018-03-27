@@ -18,7 +18,11 @@ public class PlayerConnection : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Player.name == null)
+        {
+            Debug.Log(Player.name);
+            Debug.Log("test");
+        }		
 	}
     [Command]
     void CmdSpawnMyPlayer()
