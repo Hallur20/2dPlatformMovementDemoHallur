@@ -323,7 +323,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1228845634656558}
-  m_Text: Hello World
+  m_Text: just joined! shoot me!
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -367,6 +367,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  PlayerConnection: {fileID: 1134727207931668, guid: 2b531532c0b9f6a4bb47e5f1d853ab48,
+    type: 2}
   totalHealth: 100
   playerName: 
   bulletSpawn: {fileID: 4622308405628228}

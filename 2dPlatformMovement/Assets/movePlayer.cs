@@ -6,10 +6,12 @@ using UnityEngine.Networking;
 public class movePlayer : NetworkBehaviour {
     public float speed;             //Floating point variable to store the player's movement speed. 
 
+    public GameObject PlayerConnection;
+
     private Rigidbody2D rb2d;
     // Use this for initialization
     public int totalHealth = 100;
-    s
+
     [SyncVar(hook = "OnPlayerNameChanged")]
     public string playerName;
 
@@ -49,12 +51,19 @@ public class movePlayer : NetworkBehaviour {
     }
 
     void Start () {
+
         //Get and store a reference to the Rigidbody2D component so that we can access it.
         rb2d = GetComponent<Rigidbody2D>();
-        playerName = "hp: " + totalHealth; //start with max health on the syncvar variable (100)
         Debug.Log(netId);
-    }
+        CmdPlayerNameExists("hp: " + totalHealth);
 
+
+    }
+    [Command]
+    void CmdPlayerNameExists(string s)
+    {
+        playerName = s;
+    }
     private bool areWeLanded = false;
     // Update is called once per frame
     void Update () {
@@ -66,7 +75,12 @@ public class movePlayer : NetworkBehaviour {
 
             Camera.main.GetComponent<CameraFollow>().setTarget(gameObject.transform);
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            playerName = "health: " + totalHealth; //lazy fix for if health doesnt show up on other clients as username (then click L)
+        }
+
         if (Input.GetKeyDown("space") && areWeLanded == true)
         {
             rb2d.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
