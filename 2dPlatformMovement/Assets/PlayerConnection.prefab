@@ -85,3 +85,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 1518202397039888, guid: 4d01ba8653e70324bb5bd97e39b70a46, type: 2}
+  ui: {fileID: 0}
+  stringToEdit: 

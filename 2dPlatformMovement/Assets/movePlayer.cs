@@ -6,11 +6,10 @@ using UnityEngine.Networking;
 public class movePlayer : NetworkBehaviour {
     public float speed;             //Floating point variable to store the player's movement speed. 
 
-
     private Rigidbody2D rb2d;
     // Use this for initialization
     public int totalHealth = 100;
-
+    s
     [SyncVar(hook = "OnPlayerNameChanged")]
     public string playerName;
 
