@@ -89,17 +89,26 @@ public class movePlayer : NetworkBehaviour {
         if (Input.GetKey("d"))
         {
             rb2d.AddForce(new Vector2(5*speed, 0));
+            if (cloneOnClients == null) {
+                whichway = true;
+            }
+            
         }
         if (Input.GetKey("a"))
         {
             rb2d.AddForce(new Vector2(-5*speed, 0));
+            if (cloneOnClients == null)
+            {
+                whichway = false;
+            }
+           
         }
         if (Input.GetKeyDown("f") && readyToShoot == true)
         {
             CmdFire();
         }
-        Debug.Log(gameObject);
     }
+    bool whichway = true;
     public Transform bulletSpawn;
     public GameObject clone;
     GameObject cloneOnClients;
@@ -110,10 +119,17 @@ public class movePlayer : NetworkBehaviour {
     {
         GameObject go = Instantiate(clone); //object exists on the server
         Vector3 pos = bulletSpawn.transform.GetComponent<Transform>().position;
-        pos.x = pos.x + 1; //start on +1 x away from player so player will not get hit by own bullet
+        if (whichway) {
+            pos.x = pos.x + 1; //start on +1 x away from player so player will not get hit by own bullet
+
+        } else
+        {
+            pos.x = pos.x - 1;
+        }
         go.transform.position = pos;
         NetworkServer.Spawn(go); //object is spawned on the server
         RpcsendServerBulletToAllServers(go); //send object to all clients so they can do what they want with it
+
     }
     [ClientRpc]
     void RpcsendServerBulletToAllServers(GameObject go)
@@ -127,8 +143,15 @@ public class movePlayer : NetworkBehaviour {
         readyToShoot = false;
         if (cloneOnClients != null) //if the server object exists
         {
+            if (whichway)
+            {
             cloneOnClients.transform.Translate(1, 0, 0); //move bullet clone +1 x 
+            } else
+            {
+                cloneOnClients.transform.Translate(- 1, 0, 0); //move bullet clone +1 x 
+            }
             Destroy(cloneOnClients, 1.5F); // destroy bullet clone after 1.5 seconds
+            
         }
         else
         {
